@@ -1,33 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plantaí</title>
-    <link rel="stylesheet" href="css/index.css">
-</head>
-<body>
-        <!-- Cabeçalho com navegação -->
-        <header>
-            <div class="cabeçalho">
-                <div class="logo">
-                    <img src="logo.png" width: 10px>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Início</a></li>
-                        <li><a href="plantas.html">Plantar</a></li>
-                        <li><a href="#about">Sobre Nós</a></li>
-                        <li><a href="#contact">Contato</a></li>
-                        <li><a href="login.html">Seja Voluntário</a></li>
-                    </ul>
-                </nav>
-            </div>
-                <div class="txt-banner">
-                    <h2>Faça a diferença no meio ambiente!</h2>
-                    <p>Plantas reais em locais reais, compre e plante com apenas um toque.</p>
-                    <a href="#events" class="cta-button">Plantar Agora</a>
-                </div>
-        </header>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Início · Planta Aí</title><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body><header id="topo"></header>
+<div class="hero"><div class="wrap"><h1>Toda árvore tem endereço.</h1>
+<p>Escolha a espécie e o bairro de Florianópolis. Um voluntário da região planta, e o valor da sua doação vai inteiro para a instituição Planta Aí.</p>
+<form class="pick" id="f"><select id="b" aria-label="Bairro"></select><button class="btn">Escolher árvore</button></form>
+<div class="stats"><div><b id="n1">0</b>árvores plantadas</div><div><b id="n2">0</b>aguardando plantio</div><div><b id="n3">0</b>voluntários</div></div></div></div>
+<section><div class="wrap"><h2>Como funciona</h2><div class="steps">
+<div><h3>1. Escolha</h3><p>Selecione a árvore nativa e o bairro onde ela deve crescer.</p></div>
+<div><h3>2. Doe</h3><p>Pague por Pix. Sem endereço e sem entrega: é uma doação.</p></div>
+<div><h3>3. Um voluntário planta</h3><p>Quem mora no bairro recebe o pedido e faz o plantio.</p></div></div></div></section>
+<section id="sobre"><div class="wrap"><h2>Sobre nós</h2><p>O Planta Aí reúne moradores de Florianópolis para recuperar a vegetação nativa da ilha, bairro por bairro. Todo valor arrecadado é destinado à instituição.</p></div></section>
+<section><div class="wrap"><h2>Artigos</h2><div class="grid" id="art"></div></div></section>
+<section id="contato"><div class="wrap"><h2>Contato</h2><p>Escreva para <b>contato@plantaai.org</b></p><a class="btn sec" href="login.html">Quero ser voluntário</a></div></section><footer id="rodape"></footer><script src="js/data.js"></script><script src="js/app.js"></script><script>
+$("#b").innerHTML=opts(BAIRROS);
+$("#f").onsubmit=e=>{e.preventDefault();location="plantas.html?bairro="+encodeURIComponent($("#b").value)};
+const o=db.get("orders",[]);$("#n1").textContent=o.filter(x=>x.status=="plantada").reduce((s,x)=>s+x.qtd,0);
+$("#n2").textContent=o.filter(x=>x.status!="plantada").reduce((s,x)=>s+x.qtd,0);$("#n3").textContent=db.get("vols",[]).length;
+$("#art").innerHTML=ARTIGOS.map(a=>`<div class="card"><h3>${a.t}</h3><p>${a.d}</p></div>`).join("");</script></body></html>

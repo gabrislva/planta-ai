@@ -1,0 +1,16 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voluntário · Planta Aí</title><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body><header id="topo"></header>
+<section><div class="wrap"><div id="cad"><h2>Seja voluntário</h2><p>Cadastre seu bairro e receba os pedidos de plantio da sua região.</p>
+<form class="box" id="f"><label for="n">Nome</label><input id="n" required><label for="m">E-mail</label><input id="m" type="email" required>
+<label for="b">Bairro</label><select id="b"></select><p></p><button class="btn">Quero plantar</button></form></div>
+<div id="pn" hidden><h2 id="ti"></h2><p>Pedidos do seu bairro:</p><div class="box" id="ls" style="max-width:none"></div>
+<p><button class="btn sec" id="x">Sair</button></p></div></div></section><footer id="rodape"></footer><script src="js/data.js"></script><script src="js/app.js"></script><script>
+$("#b").innerHTML=opts(BAIRROS);
+function show(){const me=db.get("me");$("#cad").hidden=!!me;$("#pn").hidden=!me;if(!me)return;
+$("#ti").textContent="Olá, "+me.nome+" · "+me.bairro;
+const o=db.get("orders",[]).filter(x=>x.bairro==me.bairro);
+$("#ls").innerHTML=o.map(x=>`<div class="line"><span>${x.qtd}× ${esp(x.especie).nome} <small>(doação de ${x.doador})</small></span>
+${x.status=="plantada"?`<span class="tag ok">plantada</span>`:`<button class="btn" data-id="${x.id}">Marcar como plantada</button>`}</div>`).join("")||"<p>Nenhum pedido ainda. Assim que alguém doar para o seu bairro, aparece aqui.</p>"}
+$("#f").onsubmit=e=>{e.preventDefault();const v=db.get("vols",[]),me={nome:$("#n").value,email:$("#m").value,bairro:$("#b").value};
+v.push(me);db.set("vols",v);db.set("me",me);show()};
+$("#ls").onclick=e=>{const id=e.target.dataset.id;if(!id)return;const o=db.get("orders",[]);o.find(x=>x.id==id).status="plantada";db.set("orders",o);show()};
+$("#x").onclick=()=>{localStorage.removeItem("pa_me");show()};show();</script></body></html>

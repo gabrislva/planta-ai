@@ -1,0 +1,10 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Plantar · Planta Aí</title><link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/style.css"></head><body><header id="topo"></header>
+<section><div class="wrap"><h2>Escolha sua árvore</h2><p>Onde ela deve ser plantada?</p>
+<select id="b" aria-label="Bairro"></select><div class="grid" id="g" style="margin-top:28px"></div></div></section><footer id="rodape"></footer><script src="js/data.js"></script><script src="js/app.js"></script><script>
+const q=new URLSearchParams(location.search).get("bairro");
+$("#b").innerHTML=opts(BAIRROS,q);
+$("#g").innerHTML=ESPECIES.map(e=>`<div class="card"><div class="emoji">${e.emoji}</div><h3>${e.nome}</h3><small>${e.desc}</small>
+<div class="preco">${brl(e.preco)}</div><div class="row"><input type="number" min="1" max="20" value="1" aria-label="Quantidade" id="q-${e.id}">
+<button class="btn" data-id="${e.id}">Plantar</button></div></div>`).join("");
+$("#g").onclick=e=>{const id=e.target.dataset.id;if(!id)return;
+cart.add({especie:id,bairro:$("#b").value,qtd:Math.max(1,+$("#q-"+id).value||1)});e.target.textContent="Adicionada ✓"};</script></body></html>
